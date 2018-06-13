@@ -258,6 +258,63 @@ modules:
         url: https://github.com/Winetricks/winetricks/archive/20180513.tar.gz
         sha256: 626aff64e3d93698704b0b668225d5504fd8ef556e3834f569058deaeafada8e
 
+  - name: liboauth
+    config-opts:
+      - --enable-nss
+    cleanup:
+      - /share/man
+    sources:
+      - type: archive
+        url: https://github.com/x42/liboauth/archive/v1.0.3.tar.gz
+        sha256: bbe73b9f576fab0deefadb242c069f2f8bfa4068c738b7666ccd01381502c854
+      - type: script
+        dest-filename: autogen.sh
+        commands:
+          - autoreconf -fi
+
+  - name: jsoncpp
+    buildsystem: meson
+    sources:
+      - type: archive
+        url: https://github.com/open-source-parsers/jsoncpp/archive/1.8.4.tar.gz
+        sha256: c49deac9e0933bcb7044f08516861a2d560988540b23de2ac1ad443b219afdb6
+
+  - name: htmlcxx
+    sources:
+      - type: archive
+        url: https://netcologne.dl.sourceforge.net/project/htmlcxx/htmlcxx/0.86/htmlcxx-0.86.tar.gz
+        sha256: 07542b5ea2442143b125ba213b6823ff4a23fff352ecdd84bbebe1d154f4f5c1
+
+  - name: boost
+    buildsystem: simple
+    build-commands:
+      - ./bootstrap.sh --prefix=/usr
+      - ./b2 link=shared release install
+    sources:
+      - type: archive
+        url: https://dl.bintray.com/boostorg/release/1.67.0/source/boost_1_67_0.tar.bz2
+        sha256: 2684c972994ee57fc5632e03bf044746f6eb45d4920c343937a465fd67a5adba
+
+  - name: tinyxml2
+    buildsystem: cmake
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+    sources:
+      - type: archive
+        url: https://github.com/leethomason/tinyxml2/archive/6.2.0.tar.gz
+        sha256: cdf0c2179ae7a7931dba52463741cf59024198bbf9673bf08415bcb46344110f
+
+  - name: rhash
+    post-install:
+      - make install-lib-shared
+      - make install-lib-so-link
+      - make -C librhash install-headers
+      - make install-pkg-config
+    sources:
+      - type: archive
+        url: https://github.com/rhash/RHash/archive/v1.3.6.tar.gz
+        sha256: 964df972b60569b5cb35ec989ced195ab8ea514fc46a74eab98e86569ffbcf92
+
   - name: metainfo
     buildsystem: simple
     build-commands:
@@ -271,4 +328,3 @@ modules:
         path: org.winepak.Sdk.appdata.xml
       - type: file
         path: org.winepak.Platform.appdata.xml
-
