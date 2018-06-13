@@ -1,0 +1,42 @@
+build-extension: true
+
+id: org.winepak.Platform.Extension.gog-tools
+branch: 3.0
+
+runtime: org.winepak.Platform
+runtime-version: 3.0
+sdk: org.winepak.Sdk
+
+separate-locales: false
+appstream-compose: false
+
+modules:
+  - name: lgogdownloader
+    buildsystem: cmake
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_INSTALL_PREFIX=/usr/lib/extension/gog-tools/
+    sources:
+      - type: archive
+        url: https://github.com/Sude-/lgogdownloader/archive/v3.3.tar.gz
+        sha256: a2e1f8f31e9162f76e90be510c87233624bfea7f7dc202f3d1b0e8a3de5b1944
+
+  - name: innoextract
+    buildsystem: cmake
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_INSTALL_PREFIX=/usr/lib/extension/gog-tools/
+    sources:
+      - type: archive
+        url: https://github.com/dscharrer/innoextract/archive/1.7.tar.gz
+        sha256: ddb80310bbb458db2bf407d3c8a53a0bc8775d0e2ce71e97eb06020c5c8a1c4e
+
+  - name: imagemagick
+    config-opts:
+      - --prefix=/usr/lib/extension/gog-tools/
+    cleanup:
+      - /share
+    sources:
+      - type: archive
+        url: https://www.imagemagick.org/download/ImageMagick-7.0.8-0.tar.gz
+        sha256: 9f212c0eb82e6fa56d1bff79049eaf4ae95a5b294221d38db2fceded740f96c7
